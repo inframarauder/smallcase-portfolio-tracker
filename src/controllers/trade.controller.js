@@ -86,3 +86,20 @@ exports.fetchPortfolio = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.fetchCumulativeReturns = async (req, res, next) => {
+	try {
+		const portfolio = await getPortfolio();
+		let cumulativeReturn = 0;
+		let currentPrice = 100; //setting this as per assignment guidelines
+
+		//calculating cumulative returns across portfolio
+		portfolio.forEach((security) => {
+			cumulativeReturn +=
+				(currentPrice - security.avgBuyPrice) * security.totalQty;
+		});
+		return res.status(200).json({ cumulativeReturn });
+	} catch (error) {
+		next(error);
+	}
+};

@@ -5,6 +5,7 @@ const {
 	removeTrade,
 	fetchTrades,
 	fetchPortfolio,
+	fetchCumulativeReturns,
 } = require("../controllers/trade.controller");
 const errorHandler = require("../middlewares/errorHandler");
 
@@ -27,6 +28,10 @@ router.get("/trades", fetchTrades);
 // @route   GET /api/portfolio
 // @desc    Fetch portfolio
 router.get("/portfolio", fetchPortfolio);
+
+// @route   GET /api/cumulative-returns
+// @desc    Fetch cumulative returns
+router.get("/cumulative-returns", fetchCumulativeReturns);
 
 //error handling for all routes
 router.use(errorHandler);

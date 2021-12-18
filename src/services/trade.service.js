@@ -89,7 +89,6 @@ exports.countQtyBySecurity = (securityTicker) => {
 			{ $match: { _id: securityTicker } },
 		])
 			.then((results) => {
-				console.log(results);
 				resolve(results[0].totalQty);
 			})
 			.catch((error) => reject(error));
