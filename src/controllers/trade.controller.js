@@ -1,14 +1,24 @@
 const {
 	createTrade,
+	getTradeById,
 	updateTrade,
 	deleteTrade,
 	findTradesBySecurityTicker,
+	countQtyBySecurity,
 	getPortfolio,
 } = require("../services/trade.service");
 const { BadRequest } = require("../utils/error");
 
 exports.addTrade = async (req, res, next) => {
 	try {
+		//for sell trade, check if the required no. of shares are present
+		const { type, securityTicker, qty } = req.body;
+		if (type && securityTicker && qty && type === "sell") {
+			const count = await countQtyBySecurity(securityTicker);
+			if (count < qty) {
+				throw new BadRequest("Insufficient no. of shares in portfolio");
+			}
+		}
 		//creating new trade
 		const trade = await createTrade(req.body);
 		return res.status(201).json({ message: "Trade added!", trade });
@@ -29,6 +39,15 @@ exports.modifyTrade = async (req, res, next) => {
 				throw new BadRequest(`Invalid update field: ${key}`);
 			}
 		});
+		//for sell trade, check if required no. of shares are present
+		const { type, qty } = req.body;
+		if (type && qty && type === "sell") {
+			const trade = await getTradeById(req.params.tradeId);
+			const count = await countQtyBySecurity(trade.securityTicker);
+			if (count < qty) {
+				throw new BadRequest("Insufficient no. of shares in portfolio");
+			}
+		}
 
 		//updating trade
 		const trade = await updateTrade(req.params.tradeId, update);

@@ -13,6 +13,16 @@ exports.createTrade = (trade) => {
 	});
 };
 
+//finds a trade by _id in database
+exports.getTradeById = (tradeId) => {
+	return new Promise((resolve, reject) => {
+		Trade.findById(tradeId)
+			.lean()
+			.then((trade) => resolve(trade))
+			.catch((error) => reject(error));
+	});
+};
+
 //finds and updates a Trade object in the database
 exports.updateTrade = (tradeId, update) => {
 	return new Promise((resolve, reject) => {
@@ -57,6 +67,35 @@ exports.findTradesBySecurityTicker = () => {
 	});
 };
 
+//returns total qty of a security held currently
+exports.countQtyBySecurity = (securityTicker) => {
+	return new Promise((resolve, reject) => {
+		Trade.aggregate([
+			{
+				$group: {
+					_id: "$securityTicker",
+					//final no. of shares = (no. of shares bought) - (no. shares sold)
+					totalQty: {
+						$sum: {
+							$cond: [
+								{ $eq: ["$type", "buy"] },
+								"$qty",
+								{ $multiply: ["$qty", -1] },
+							],
+						},
+					},
+				},
+			},
+			{ $match: { _id: securityTicker } },
+		])
+			.then((results) => {
+				console.log(results);
+				resolve(results[0].totalQty);
+			})
+			.catch((error) => reject(error));
+	});
+};
+
 //returns portfolio after performing aggregation
 exports.getPortfolio = () => {
 	return new Promise((resolve, reject) => {
@@ -94,9 +133,12 @@ exports.getPortfolio = () => {
 					},
 				},
 			},
+			{ $match: { totalQty: { $gt: 0 } } },
 			{
 				$project: {
-					_id: 1,
+					_id: 0,
+					//renaming '_id' to 'security'
+					security: "$_id",
 					totalQty: 1,
 					//avg buy price = (total buy price) / (total qty bought)
 					avgBuyPrice: {

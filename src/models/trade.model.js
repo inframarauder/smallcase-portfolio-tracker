@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { BadRequest } = require("../utils/error");
 
 const tradeSchema = new mongoose.Schema({
 	type: {
