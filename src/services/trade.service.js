@@ -40,16 +40,19 @@ exports.deleteTrade = (tradeId) => {
 	});
 };
 
-//finds all trade objects in the database based on query
-exports.findTrades = (query = {}) => {
+//returns trade objects from the database grouped by security ticker
+exports.findTradesBySecurityTicker = () => {
+	//using $group operator in aggregation pipeline
 	return new Promise((resolve, reject) => {
-		Trade.find(query)
-			.lean()
-			.then((trades) => {
-				resolve(trades);
-			})
-			.catch((error) => {
-				reject(error);
-			});
+		Trade.aggregate([
+			{
+				$group: {
+					_id: "$securityTicker",
+					trades: { $push: "$$ROOT" },
+				},
+			},
+		])
+			.then((trades) => resolve(trades))
+			.catch((error) => reject(error));
 	});
 };

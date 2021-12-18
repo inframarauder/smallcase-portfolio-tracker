@@ -20,7 +20,7 @@ router.put("/trades/:tradeId", modifyTrade);
 router.delete("/trades/:tradeId", removeTrade);
 
 // @route   GET /api/trades
-// @desc    Fetch all trades
+// @desc    Fetch all trades grouped by security ticker
 router.get("/trades", fetchTrades);
 
 //error handling for all routes

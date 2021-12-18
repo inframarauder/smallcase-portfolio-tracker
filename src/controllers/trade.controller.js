@@ -2,7 +2,7 @@ const {
 	createTrade,
 	updateTrade,
 	deleteTrade,
-	findTrades,
+	findTradesBySecurityTicker,
 } = require("../services/trade.service");
 const { BadRequest } = require("../utils/error");
 
@@ -50,8 +50,8 @@ exports.removeTrade = async (req, res, next) => {
 exports.fetchTrades = async (req, res, next) => {
 	try {
 		//fetching trades
-		const trades = await findTrades();
-		return res.status(200).json({ trades });
+		const groupedTrades = await findTradesBySecurityTicker();
+		return res.status(200).json({ groupedTrades });
 	} catch (error) {
 		next(error);
 	}
