@@ -1,0 +1,32 @@
+{
+	"name": "portfolio-tracker-api",
+	"version": "1.0.0",
+	"description": "smallcase backend assignment",
+	"main": "app.js",
+	"scripts": {
+		"start": "node src/app.js",
+		"dev": "nodemon src/app.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/subhasis020299/portfolio-tracker-api.git"
+	},
+	"keywords": [
+		"smallcase",
+		"portfolio",
+		"api",
+		"tracker"
+	],
+	"author": "subhasis das",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/subhasis020299/portfolio-tracker-api/issues"
+	},
+	"homepage": "https://github.com/subhasis020299/portfolio-tracker-api#readme",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"dotenv": "^10.0.0",
+		"express": "^4.17.2",
+		"mongoose": "^6.1.2"
+	}
+}
