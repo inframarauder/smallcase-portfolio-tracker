@@ -4,6 +4,7 @@ const {
 	modifyTrade,
 	removeTrade,
 	fetchTrades,
+	fetchPortfolio,
 } = require("../controllers/trade.controller");
 const errorHandler = require("../middlewares/errorHandler");
 
@@ -22,6 +23,10 @@ router.delete("/trades/:tradeId", removeTrade);
 // @route   GET /api/trades
 // @desc    Fetch all trades grouped by security ticker
 router.get("/trades", fetchTrades);
+
+// @route   GET /api/portfolio
+// @desc    Fetch portfolio
+router.get("/portfolio", fetchPortfolio);
 
 //error handling for all routes
 router.use(errorHandler);

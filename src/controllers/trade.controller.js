@@ -3,6 +3,7 @@ const {
 	updateTrade,
 	deleteTrade,
 	findTradesBySecurityTicker,
+	getPortfolio,
 } = require("../services/trade.service");
 const { BadRequest } = require("../utils/error");
 
@@ -52,6 +53,16 @@ exports.fetchTrades = async (req, res, next) => {
 		//fetching trades grouped by security ticker
 		const groupedTrades = await findTradesBySecurityTicker();
 		return res.status(200).json({ groupedTrades });
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.fetchPortfolio = async (req, res, next) => {
+	try {
+		//performing aggregation and returning portfolio
+		const portfolio = await getPortfolio();
+		return res.status(200).json({ portfolio });
 	} catch (error) {
 		next(error);
 	}
