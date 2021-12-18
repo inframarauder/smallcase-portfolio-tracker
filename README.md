@@ -24,6 +24,6 @@ All API Routes are well documented.
 
 **Validations**
 
-- check to ensure total number of shares held is never 0
+- check to ensure total number of shares held is never negative.
 - check to ensure required number of shares are available for a security in current portfolio for sell trades
 - other data type and enum validations.
