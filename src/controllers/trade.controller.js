@@ -2,6 +2,7 @@ const {
 	createTrade,
 	updateTrade,
 	deleteTrade,
+	findTrades,
 } = require("../services/trade.service");
 const { BadRequest } = require("../utils/error");
 
@@ -41,6 +42,16 @@ exports.removeTrade = async (req, res, next) => {
 		//deleting trade
 		await deleteTrade(req.params.tradeId);
 		return res.status(200).json({ message: "Trade deleted!" });
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.fetchTrades = async (req, res, next) => {
+	try {
+		//fetching trades
+		const trades = await findTrades();
+		return res.status(200).json({ trades });
 	} catch (error) {
 		next(error);
 	}

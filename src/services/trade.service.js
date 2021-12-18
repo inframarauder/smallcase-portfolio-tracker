@@ -39,3 +39,17 @@ exports.deleteTrade = (tradeId) => {
 			});
 	});
 };
+
+//finds all trade objects in the database based on query
+exports.findTrades = (query = {}) => {
+	return new Promise((resolve, reject) => {
+		Trade.find(query)
+			.lean()
+			.then((trades) => {
+				resolve(trades);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});
+};

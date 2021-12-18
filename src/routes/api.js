@@ -3,6 +3,7 @@ const {
 	addTrade,
 	modifyTrade,
 	removeTrade,
+	fetchTrades,
 } = require("../controllers/trade.controller");
 const errorHandler = require("../middlewares/errorHandler");
 
@@ -17,6 +18,10 @@ router.put("/trades/:tradeId", modifyTrade);
 // @route   DELETE /api/trades/:tradeId
 // @desc    Delete a trade
 router.delete("/trades/:tradeId", removeTrade);
+
+// @route   GET /api/trades
+// @desc    Fetch all trades
+router.get("/trades", fetchTrades);
 
 //error handling for all routes
 router.use(errorHandler);
