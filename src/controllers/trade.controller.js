@@ -98,6 +98,7 @@ exports.fetchCumulativeReturns = async (req, res, next) => {
 			cumulativeReturn +=
 				(currentPrice - security.avgBuyPrice) * security.totalQty;
 		});
+
 		return res.status(200).json({ cumulativeReturn });
 	} catch (error) {
 		next(error);

@@ -132,7 +132,7 @@ exports.getPortfolio = () => {
 					},
 				},
 			},
-			{ $match: { totalQty: { $gt: 0 } } },
+			{ $match: { totalQty: { $gt: 0 } } }, //excluding securities with no shares
 			{
 				$project: {
 					_id: 0,
