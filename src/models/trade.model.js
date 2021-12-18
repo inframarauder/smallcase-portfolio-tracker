@@ -20,10 +20,10 @@ const tradeSchema = new mongoose.Schema({
 		required: [true, "Quantity is required"],
 		min: [1, "Quantity must be greater than 0"],
 	},
-	avgBuyPrice: {
+	price: {
 		type: Number,
-		required: [true, "Average buy price is required"],
-		min: [0, "Average buy price must be positive"],
+		required: [true, "Price is required"],
+		min: [0, "Price must be positive"],
 	},
 });
 

@@ -19,7 +19,7 @@ exports.addTrade = async (req, res, next) => {
 exports.modifyTrade = async (req, res, next) => {
 	try {
 		//extracting updateable fields
-		const allowedUpdates = ["type", "avgBuyPrice", "qty", "securityTicker"];
+		const allowedUpdates = ["type", "price", "qty", "securityTicker"];
 		let update = {};
 		Object.keys(req.body).forEach((key) => {
 			if (allowedUpdates.includes(key)) {
@@ -49,7 +49,7 @@ exports.removeTrade = async (req, res, next) => {
 
 exports.fetchTrades = async (req, res, next) => {
 	try {
-		//fetching trades
+		//fetching trades grouped by security ticker
 		const groupedTrades = await findTradesBySecurityTicker();
 		return res.status(200).json({ groupedTrades });
 	} catch (error) {
