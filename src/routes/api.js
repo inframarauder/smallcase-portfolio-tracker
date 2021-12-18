@@ -1,5 +1,9 @@
 const router = require("express").Router();
-const { addTrade, modifyTrade } = require("../controllers/trade.controller");
+const {
+	addTrade,
+	modifyTrade,
+	removeTrade,
+} = require("../controllers/trade.controller");
 const errorHandler = require("../middlewares/errorHandler");
 
 // @route   POST /api/trades
@@ -9,6 +13,10 @@ router.post("/trades", addTrade);
 // @route   PUT /api/trades/:tradeId
 // @desc    Update a trade
 router.put("/trades/:tradeId", modifyTrade);
+
+// @route   DELETE /api/trades/:tradeId
+// @desc    Delete a trade
+router.delete("/trades/:tradeId", removeTrade);
 
 //error handling for all routes
 router.use(errorHandler);

@@ -16,9 +16,23 @@ exports.createTrade = (trade) => {
 //finds and updates a Trade object in the database
 exports.updateTrade = (tradeId, update) => {
 	return new Promise((resolve, reject) => {
+		//using 'runValidators' flag to ensure validation rules are followed while updating
 		Trade.findByIdAndUpdate(tradeId, update, { new: true, runValidators: true })
 			.then((trade) => {
 				resolve(trade);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});
+};
+
+//finds and deletes a Trade object in the database
+exports.deleteTrade = (tradeId) => {
+	return new Promise((resolve, reject) => {
+		Trade.findByIdAndDelete(tradeId)
+			.then(() => {
+				resolve();
 			})
 			.catch((error) => {
 				reject(error);
