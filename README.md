@@ -1,9 +1,12 @@
 # portfolio-tracker-api
 
 Solution for the smallcase backend assignment.
-All API Routes are well documented. Postman collection is included in the repository.
-The documentation can be viewed here :
-API is deployed here :
+All API Routes are well documented.
+
+- The documentation can be viewed here : https://documenter.getpostman.com/view/7306181/UVRAHmR1
+- API is deployed here : https://smallcase-portfolio.herokuapp.com/api
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/7306181-782e90dd-5c09-4890-a729-9cd855a6b271?action=collection%2Ffork&collection-url=entityId%3D7306181-782e90dd-5c09-4890-a729-9cd855a6b271%26entityType%3Dcollection%26workspaceId%3Dc5395985-353e-4dd3-8998-04624306273c)
 
 **Important env variables**
 
