@@ -6,6 +6,7 @@ const {
 	findTradesBySecurityTicker,
 	countQtyBySecurity,
 	getPortfolio,
+	getCumulativeReturns,
 } = require("../services/trade.service");
 const { BadRequest } = require("../utils/error");
 
@@ -89,17 +90,9 @@ exports.fetchPortfolio = async (req, res, next) => {
 
 exports.fetchCumulativeReturns = async (req, res, next) => {
 	try {
-		const portfolio = await getPortfolio();
-		let cumulativeReturn = 0;
-		let currentPrice = 100; //setting this as per assignment guidelines
-
-		//calculating cumulative returns across portfolio
-		portfolio.forEach((security) => {
-			cumulativeReturn +=
-				(currentPrice - security.avgBuyPrice) * security.totalQty;
-		});
-
-		return res.status(200).json({ cumulativeReturn });
+		const currentPrice = 100;
+		const [{ cumulativeReturns }] = await getCumulativeReturns(currentPrice);
+		return res.status(200).json({ cumulativeReturns });
 	} catch (error) {
 		next(error);
 	}

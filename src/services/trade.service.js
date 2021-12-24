@@ -150,3 +150,76 @@ exports.getPortfolio = () => {
 			.catch((error) => reject(error));
 	});
 };
+
+exports.getCumulativeReturns = (currentPrice) => {
+	return new Promise((resolve, reject) => {
+		Trade.aggregate([
+			{
+				$group: {
+					_id: "$securityTicker",
+					//final no. of shares = (no. of shares bought) - (no. shares sold)
+					totalQty: {
+						$sum: {
+							$cond: [
+								{ $eq: ["$type", "buy"] },
+								"$qty",
+								{ $multiply: ["$qty", -1] },
+							],
+						},
+					},
+
+					//total buy price = sum(price[ticker] * qty[ticker]) for buy trades
+					totalBuyPrice: {
+						$sum: {
+							$cond: [
+								{ $eq: ["$type", "buy"] },
+								{ $multiply: ["$price", "$qty"] },
+								0,
+							],
+						},
+					},
+
+					//total qty bought = sum(qty[ticker]) for buy trades
+					totalQtyBought: {
+						$sum: {
+							$cond: [{ $eq: ["$type", "buy"] }, "$qty", 0],
+						},
+					},
+				},
+			},
+			{ $match: { totalQty: { $gt: 0 } } }, //excluding securities with no shares
+			{
+				$project: {
+					_id: 0,
+					//renaming '_id' to 'security'
+					security: "$_id",
+					totalQty: 1,
+					//avg buy price = (total buy price) / (total qty bought)
+					avgBuyPrice: {
+						$divide: ["$totalBuyPrice", "$totalQtyBought"],
+					},
+				},
+			},
+			{
+				$group: {
+					_id: null,
+					cumulativeReturns: {
+						$sum: {
+							$divide: [
+								{ $subtract: [currentPrice, "$avgBuyPrice"] },
+								"$totalQty",
+							],
+						},
+					},
+				},
+			},
+		])
+			.then((result) => {
+				resolve(result);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});
+};
+s;
